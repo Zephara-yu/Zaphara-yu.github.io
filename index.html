@@ -1494,10 +1494,18 @@ html[data-theme="dark"] .report-card {
         wrapper.dataset.id = msg.id;
         
         let messageHTML = '';
-        if (msg.replyTo) {
-            const repliedText = msg.replyTo.text || '[图片]';
-            messageHTML += `<div class="reply-indicator"><span style="opacity:0.9; overflow:hidden; text-overflow: ellipsis; white-space:nowrap;">${repliedText}</span></div>`;
-        }
+      if (msg.replyTo) {
+    let repliedContent = '';
+    if (msg.replyTo.image) {
+        // 如果是图片消息，显示图片缩略图
+        repliedContent = `<img src="${msg.replyTo.image}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 8px; margin-right: 8px; vertical-align: middle;">`;
+        repliedContent += `<span style="opacity:0.9;">[图片]</span>`;
+    } else {
+        // 如果是文字消息，显示文字
+        repliedContent = `<span style="opacity:0.9; overflow:hidden; text-overflow: ellipsis; white-space:nowrap;">${(msg.replyTo.text || '[图片]').substring(0, 30)}${(msg.replyTo.text || '').length > 30 ? '...' : ''}</span>`;
+    }
+    messageHTML += `<div class="reply-indicator" style="display: flex; align-items: center; gap: 6px;">${repliedContent}</div>`;
+}
         
         let content = msg.text ? `<div>${msg.text.replace(/\n/g, '<br>')}</div>` : '';
         if (msg.image) content += `<img src="${msg.image}" class="message-image" alt="图片" style="max-width: 200px; border-radius: 8px; margin-top: 8px; cursor: pointer;" onclick="viewImage('${msg.image}')">`;
