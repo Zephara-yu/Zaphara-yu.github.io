@@ -2184,7 +2184,7 @@ DOMElements.imageInput.addEventListener('change', () => {
         if (!message) return;
         
         if (target.classList.contains('reply-btn')) {
-            currentReplyTo = { id: message.id, sender: message.sender, text: message.text };
+            currentReplyTo = { id: message.id, sender: message.sender, text: message.text, image: message.image };
             updateReplyPreview();
             DOMElements.messageInput.focus();
             const targetMessageElement = DOMElements.chatContainer.querySelector(`[data-id="${message.id}"]`);
